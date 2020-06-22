@@ -1,20 +1,31 @@
+/* Global Stuff for App */
+.boxed {
+  outline-width: 2px;
+  outline-style: solid;
+  outline-color: red;
+}
+
+.option-button {
+  background-color: transparent;
+  border-color: transparent;
+  color: white;
+  font-size: 1.5em;
+}
+
+.bold-text {
+  font-weight: 700;
+}
+
+/* ========
+For App.js 
+========*/
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
-  background-color: #282c34;
+  /* background-color: #282c34; */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,17 +33,4 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

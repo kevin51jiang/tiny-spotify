@@ -1,0 +1,29 @@
+.controller {
+    padding-top: 0.5em;
+}
+
+.controller button {
+    display: inline-flex;
+    background-color: transparent;
+    font-size: 2em;
+    border-width: 0;
+    transform: translateY(-0.8em);
+    color: lightslategray;
+}
+
+.controller button:hover {
+    color: aliceblue;
+    transform: scale(1.1) translateY(-0.8em);
+}
+
+.controller .centerButton {
+    margin-top: 0.5em;
+    font-size: 2.5em;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+    transform: translateY(-0.5em);
+}
+
+.controller .centerButton:hover {
+    transform:scale(1.1)  translateY(-0.5em);
+}
