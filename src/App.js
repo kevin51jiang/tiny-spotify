@@ -1,25 +1,58 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Link,
+  useHistory,
+} from "react-router-dom";
+import Login from "./pages/Login";
+import "./App.css";
+import PrivateRoute from "./components/routes/PrivateRoute";
+import LoginRoute from "./components/routes/LoginRoute";
+import Landing from "./pages/Landing";
 
 function App() {
+  const [auth, setAuth] = useState();
+  const history = useHistory();
+  useEffect(() => {
+    setAuth(window.localStorage.getItem("spotifyAuthToken"));
+  }, [window.localStorage.getItem("spotifyAuthToken")]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            {auth ? (
+              <li>
+                <Link
+                  onClick={() => {
+                    window.localStorage.removeItem("spotifyAuthToken");
+                    window.location.reload();
+                  }}
+                >
+                  Sign out
+                </Link>
+              </li>
+            ) : (
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+            )}
+          </ul>
+        </nav>
+
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <LoginRoute auth={auth} path="/login" render={() => <Login />} />
+          <PrivateRoute auth={auth} path="/" render={() => <Landing />} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
