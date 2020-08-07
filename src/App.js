@@ -38,28 +38,42 @@ function App() {
             <Navbar auth={auth} />
           </Pane>
           <Pane>
-            <span>Main content here</span>
-            <Switch>
-              {/* Main app stuff */}
-              <LoginRoute auth={auth} path="/login" render={() => <Login />} />
-              <PrivateRoute
-                auth={auth}
-                path="/"
-                render={(props) => <Home auth={auth} />}
-              />
-            </Switch>
+            <main>
+              <span>Main content here</span>
+              <Switch>
+                {/* Main app stuff */}
+                <LoginRoute
+                  auth={auth}
+                  path="/login"
+                  render={() => <Login />}
+                />
+                <PrivateRoute
+                  auth={auth}
+                  path="/"
+                  render={(props) => <Home auth={auth} />}
+                />
+              </Switch>
+            </main>
           </Pane>
           <Pane initialSize="200px" minSize="150px" maxSize="21%">
-            Right sidebar
+            <div className="right-bar">
+              Right sidebar
+            </div>
           </Pane>
         </SplitPane>
         <div className="footer">
-          <Player
-            token={auth}
-            callback={(e) => console.log("player", e)}
-            play={false}
-            toPlay={["spotify:playlist:3O2s7Gp4kb6onJcObBD3QN"]}
-          />
+          {auth ? (
+            <Player
+              token={auth}
+              callback={(e) => console.log("player", e)}
+              play={false}
+              toPlay={["spotify:playlist:3O2s7Gp4kb6onJcObBD3QN"]}
+            />
+          ) : (
+            <div className="playbar-replacement">
+              Please sign in with Spotify
+            </div>
+          )}
         </div>
       </div>
     </Router>

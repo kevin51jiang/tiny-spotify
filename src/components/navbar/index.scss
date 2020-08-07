@@ -1,0 +1,26 @@
+.navbar {
+  height: 100%;
+  background-color: #000000;
+
+  .nav-opts {
+    padding: 0.5rem;
+    font-size: 2rem;
+
+    &:hover,
+    &:focus {
+      border: none;
+      outline: none;
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+
+  .section-lib-panel {
+    height: calc(100vh - 48px - 16rem);
+    overflow-y: auto;
+  }
+
+  .section-selected {
+    border-left: solid 4px #1db954;
+  }
+}

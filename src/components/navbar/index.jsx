@@ -2,11 +2,39 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 import SectionMenu from "./sectionMenu";
-import { FiHome } from "react-icons/fi";
+import { AiOutlineEllipsis } from "react-icons/ai";
+import { FiHome, FiRadio } from "react-icons/fi";
+import { BsFolder } from "react-icons/bs";
+
+import "./index.scss";
+import NavSection from "./navSection";
+import NewPlaylist from "./NewPlaylist";
 const Navbar = (props) => {
   return (
-    <>
-      <nav>
+    <div className="navbar">
+      <div className="nav-opts">
+        <AiOutlineEllipsis />
+      </div>
+
+      <SectionMenu icon={FiHome} to="/home" text="Home" />
+      <SectionMenu icon={BsFolder} to="/browse" text="Browse" />
+      <SectionMenu icon={FiRadio} to="/radio" text="Radio" />
+
+      <div className="section-lib-panel">
+        <NavSection title="your library">
+          <li>uwu</li>
+          <li>uwu</li>
+          <li>uwu</li>
+        </NavSection>
+
+        <NavSection title="playlists">
+          {Array(100)
+            .fill()
+            .map((_, num) => {
+              return <li>{num}</li>;
+            })}
+        </NavSection>
+
         <ul>
           <li>
             <Link to="/">Home</Link>
@@ -29,10 +57,10 @@ const Navbar = (props) => {
             </li>
           )}
         </ul>
-      </nav>
+      </div>
 
-      <SectionMenu icon={FiHome} text="Hello world" />
-    </>
+      <NewPlaylist />
+    </div>
   );
 };
 

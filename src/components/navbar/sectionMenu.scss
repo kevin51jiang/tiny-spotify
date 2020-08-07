@@ -1,0 +1,27 @@
+.section-menu {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  display: inline-flex;
+  color: #b3b3b3;
+  margin: 0.5rem 0;
+
+  .section-icon {
+    font-size: 1.25rem;
+    margin: 0 0.75rem;
+  }
+
+  &.section-selected .section-icon {
+    margin-left: 0.5rem;
+  }
+
+  .section-text {
+    align-self: center;
+    font-weight: bold;
+  }
+
+  &:hover {
+    color: #fff;
+  }
+}
