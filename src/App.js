@@ -1,56 +1,66 @@
 import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Link,
-  useHistory,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import Login from "./pages/Login";
-import "./App.css";
+import "./App.scss";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import LoginRoute from "./components/routes/LoginRoute";
-import Landing from "./pages/Landing";
+import Home from "./pages/Home";
+import Navbar from "./components/navbar";
+import Player from "./components/player";
+import SplitPane from "react-split-pane";
+import Pane from "react-split-pane/lib/Pane";
 
 function App() {
   const [auth, setAuth] = useState();
-  const history = useHistory();
+
   useEffect(() => {
     setAuth(window.localStorage.getItem("spotifyAuthToken"));
-  }, [window.localStorage.getItem("spotifyAuthToken")]);
+    function checkUserAuth() {
+      const item = localStorage.getItem("spotifyAuthToken");
+
+      if (item) {
+        setAuth(item);
+      }
+    }
+
+    window.addEventListener("spotifyAuthToken", checkUserAuth);
+
+    return () => {
+      window.removeEventListener("spotifyAuthToken", checkUserAuth);
+    };
+  }, []);
 
   return (
     <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            {auth ? (
-              <li>
-                <Link
-                  onClick={() => {
-                    window.localStorage.removeItem("spotifyAuthToken");
-                    window.location.reload();
-                  }}
-                >
-                  Sign out
-                </Link>
-              </li>
-            ) : (
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-            )}
-          </ul>
-        </nav>
-
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <LoginRoute auth={auth} path="/login" render={() => <Login />} />
-          <PrivateRoute auth={auth} path="/" render={() => <Landing />} />
-        </Switch>
+      <div className="wrapper">
+        <SplitPane split="vertical">
+          <Pane initialSize="200px" minSize="150px" maxSize="20%">
+            <Navbar auth={auth} />
+          </Pane>
+          <Pane>
+            <span>Main content here</span>
+            <Switch>
+              {/* Main app stuff */}
+              <LoginRoute auth={auth} path="/login" render={() => <Login />} />
+              <PrivateRoute
+                auth={auth}
+                path="/"
+                render={(props) => <Home auth={auth} />}
+              />
+            </Switch>
+          </Pane>
+          <Pane initialSize="200px" minSize="150px" maxSize="21%">
+            Right sidebar
+          </Pane>
+        </SplitPane>
+        <div className="footer">
+          <Player
+            token={auth}
+            callback={(e) => console.log("player", e)}
+            play={false}
+            toPlay={["spotify:playlist:3O2s7Gp4kb6onJcObBD3QN"]}
+          />
+        </div>
       </div>
     </Router>
   );

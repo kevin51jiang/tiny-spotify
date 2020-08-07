@@ -30,6 +30,7 @@ const Login = (props) => {
           Scopes.userReadRecentlyPlayed,
           "user-follow-read",
           "user-follow-modify",
+          "user-read-playback-state",
         ]}
         noCookie
         localStorage
