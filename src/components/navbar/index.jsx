@@ -13,6 +13,9 @@ import { UserPlaylists } from "react-spotify-api";
 import LoginBoundary from "../LoginBoundary";
 import HomeBrowseRadioMenu from "./HomeBrowseRadioMenu";
 
+  import InfiniteScroll from "react-infinite-scroll-component";
+
+
 const Navbar = (props) => {
   return (
     <div className="navbar">
@@ -37,17 +40,39 @@ const Navbar = (props) => {
         <NavSection title="playlists">
           <LoginBoundary>
             <UserPlaylists>
-              {({ data }) =>
+              {({ data, loadMoreData }) =>
                 data ? (
-                  data.items.map((playlist) => (
-                    <>
-                      {console.log("playlist", playlist)}
-                      <NavPlaylistEntry
-                        to={"/playlist/" + playlist.id}
-                        text={playlist.name}
-                      />
-                    </>
-                  ))
+                  <>
+                    {/* <InfiniteScroll
+                      dataLength={data.total}
+                      next={loadMoreData}
+                      hasMore={data.ic}
+                      loader={<h4>Loading...</h4>}
+                      height={400}
+                      endMessage={
+                        <p style={{ textAlign: "center" }}>
+                          <b>Yay! You have seen it all</b>
+                        </p>
+                      }
+                    >
+                      {this.state.items.map((i, index) => (
+                        <div style={style} key={index}>
+                          div - #{index}
+                        </div>
+                      ))}
+                    </InfiniteScroll> */}
+                    {console.log("data", data)}
+                    {console.log('loadmoredata', loadMoreData())}
+                    {data.items.map((playlist) => (
+                      <>
+                        {console.log("playlist", playlist)}
+                        <NavPlaylistEntry
+                          to={"/playlist/" + playlist.id}
+                          text={playlist.name}
+                        />
+                      </>
+                    ))}
+                  </>
                 ) : (
                   <>
                     {console.log("playlists", data)}

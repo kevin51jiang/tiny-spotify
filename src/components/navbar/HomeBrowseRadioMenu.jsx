@@ -13,7 +13,7 @@ const HomeBrowseRadioMenu = (props) => {
       <SectionMenu
         defaultIcon={AiOutlineHome}
         selectedIcon={AiFillHome}
-        to="/home"
+        to="/"
         text="Home"
       />
       <SectionMenu
