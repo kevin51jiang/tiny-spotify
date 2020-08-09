@@ -5,7 +5,8 @@ import "./sectionMenu.scss";
 const SectionMenu = (props) => {
   const [isSelected, setIsSelected] = useState(false);
 
-  const Icon = props.icon;
+  const DefaultIcon = props.defaultIcon;
+  const SelectedIcon = props.selectedIcon;
   const history = useHistory();
   const loc = useLocation();
 
@@ -24,7 +25,7 @@ const SectionMenu = (props) => {
       onClick={() => history.push(props.to)}
     >
       <span className="section-icon">
-        <Icon />
+        {isSelected ? <SelectedIcon /> : <DefaultIcon />}
       </span>
       <span className="section-text">{props.text}</span>
     </button>

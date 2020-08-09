@@ -10,8 +10,13 @@ import Player from "./components/player";
 import SplitPane from "react-split-pane";
 import Pane from "react-split-pane/lib/Pane";
 
+import axios from "axios";
+
+import { SpotifyApiAxiosContext, SpotifyApiContext } from "react-spotify-api";
+
 function App() {
   const [auth, setAuth] = useState();
+  const [isFriendOpen, setIsFriendOpen] = useState(false);
 
   useEffect(() => {
     setAuth(window.localStorage.getItem("spotifyAuthToken"));
@@ -31,52 +36,59 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <div className="wrapper">
-        <SplitPane split="vertical">
-          <Pane initialSize="200px" minSize="150px" maxSize="20%">
-            <Navbar auth={auth} />
-          </Pane>
-          <Pane>
-            <main>
-              <span>Main content here</span>
-              <Switch>
-                {/* Main app stuff */}
-                <LoginRoute
-                  auth={auth}
-                  path="/login"
-                  render={() => <Login />}
+    <SpotifyApiAxiosContext.Provider value={axios}>
+      <SpotifyApiContext.Provider value={auth}>
+        <Router>
+          <div className="wrapper">
+            <SplitPane split="vertical">
+              <Pane initialSize="200px" minSize="150px" maxSize="30%">
+                <Navbar auth={auth} />
+              </Pane>
+              <Pane>
+                <main>
+                  <span>Main content here</span>
+                  <button onClick={() => setIsFriendOpen(() => !isFriendOpen)}>
+                    toggle
+                  </button>
+                  <Switch>
+                    {/* Main app stuff */}
+                    <LoginRoute
+                      auth={auth}
+                      path="/login"
+                      render={() => <Login />}
+                    />
+                    <PrivateRoute
+                      auth={auth}
+                      path="/"
+                      render={(props) => <Home auth={auth} />}
+                    />
+                  </Switch>
+                </main>
+              </Pane>
+              {isFriendOpen && (
+                <Pane initialSize="200px" minSize="150px" maxSize="30%">
+                  <div className="right-bar">Right sidebar</div>
+                </Pane>
+              )}
+            </SplitPane>
+            <div className="footer">
+              {auth ? (
+                <Player
+                  token={auth}
+                  // callback={(e) => console.log("player", e)}
+                  play={false}
+                  toPlay={["spotify:playlist:3O2s7Gp4kb6onJcObBD3QN"]}
                 />
-                <PrivateRoute
-                  auth={auth}
-                  path="/"
-                  render={(props) => <Home auth={auth} />}
-                />
-              </Switch>
-            </main>
-          </Pane>
-          <Pane initialSize="200px" minSize="150px" maxSize="21%">
-            <div className="right-bar">
-              Right sidebar
+              ) : (
+                <div className="playbar-replacement">
+                  Please sign in with Spotify
+                </div>
+              )}
             </div>
-          </Pane>
-        </SplitPane>
-        <div className="footer">
-          {auth ? (
-            <Player
-              token={auth}
-              callback={(e) => console.log("player", e)}
-              play={false}
-              toPlay={["spotify:playlist:3O2s7Gp4kb6onJcObBD3QN"]}
-            />
-          ) : (
-            <div className="playbar-replacement">
-              Please sign in with Spotify
-            </div>
-          )}
-        </div>
-      </div>
-    </Router>
+          </div>
+        </Router>
+      </SpotifyApiContext.Provider>
+    </SpotifyApiAxiosContext.Provider>
   );
 }
 

@@ -1,14 +1,18 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
-import SectionMenu from "./sectionMenu";
 import { AiOutlineEllipsis } from "react-icons/ai";
-import { FiHome, FiRadio } from "react-icons/fi";
-import { BsFolder } from "react-icons/bs";
 
 import "./index.scss";
 import NavSection from "./navSection";
 import NewPlaylist from "./NewPlaylist";
+import { NavLibEntry, NavPlaylistEntry } from "./NavLibEntry";
+
+import { UserPlaylists } from "react-spotify-api";
+
+import LoginBoundary from "../LoginBoundary";
+import HomeBrowseRadioMenu from "./HomeBrowseRadioMenu";
+
 const Navbar = (props) => {
   return (
     <div className="navbar">
@@ -16,23 +20,43 @@ const Navbar = (props) => {
         <AiOutlineEllipsis />
       </div>
 
-      <SectionMenu icon={FiHome} to="/home" text="Home" />
-      <SectionMenu icon={BsFolder} to="/browse" text="Browse" />
-      <SectionMenu icon={FiRadio} to="/radio" text="Radio" />
+      <HomeBrowseRadioMenu />
 
-      <div className="section-lib-panel">
+      <div className="section-spacer" />
+
+      <div className="section-lib-panel spotify-scroll">
         <NavSection title="your library">
-          <li>uwu</li>
-          <li>uwu</li>
-          <li>uwu</li>
+          <NavLibEntry to="/made-for-you" text="Made for You" />
+          <NavLibEntry to="/recently-played" text="Recently Played" />
+          <NavLibEntry to="/liked-songs" text="Liked Songs" />
+          <NavLibEntry to="/albums" text="Albums" />
+          <NavLibEntry to="/artists" text="Artists" />
+          <NavLibEntry to="/podcasts" text="Podcasts" />
         </NavSection>
 
         <NavSection title="playlists">
-          {Array(100)
-            .fill()
-            .map((_, num) => {
-              return <li>{num}</li>;
-            })}
+          <LoginBoundary>
+            <UserPlaylists>
+              {({ data }) =>
+                data ? (
+                  data.items.map((playlist) => (
+                    <>
+                      {console.log("playlist", playlist)}
+                      <NavPlaylistEntry
+                        to={"/playlist/" + playlist.id}
+                        text={playlist.name}
+                      />
+                    </>
+                  ))
+                ) : (
+                  <>
+                    {console.log("playlists", data)}
+                    <span>Loading playlists...</span>
+                  </>
+                )
+              }
+            </UserPlaylists>
+          </LoginBoundary>
         </NavSection>
 
         <ul>

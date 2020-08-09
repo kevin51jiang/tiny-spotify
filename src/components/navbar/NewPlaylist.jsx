@@ -1,15 +1,21 @@
 import React from "react";
-import { IoIosAddCircleOutline } from "react-icons/io";
+import { MdAddCircleOutline } from "react-icons/md";
 
 import styles from "./NewPlaylist.module.scss";
 
 const NewPlaylist = (props) => {
   return (
-    <button className={styles.newBtn}>
+    <div
+      className={styles.newBtn}
+      onClick={() => console.log("click on new playlist")}
+    >
       <div className={styles.content}>
-        <IoIosAddCircleOutline /> <span>New Playlist</span>
+        <div className={styles.sectionText}>
+          <MdAddCircleOutline />
+          New Playlist
+        </div>
       </div>
-    </button>
+    </div>
   );
 };
 

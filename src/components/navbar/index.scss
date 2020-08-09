@@ -15,9 +15,14 @@
     }
   }
 
+  .section-spacer {
+    height: 1rem;
+  }
+
   .section-lib-panel {
     height: calc(100vh - 48px - 16rem);
     overflow-y: auto;
+    scrollbar-color: red yellow;
   }
 
   .section-selected {

@@ -1,0 +1,43 @@
+.nav-entry button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  display: inline-flex;
+  color: #b3b3b3;
+
+  padding-left: 0.75rem;
+
+  &.section-selected {
+    padding-left: 0.5rem;
+  }
+
+  .nav-lib-text {
+    align-self: center;
+    font-weight: 900;
+    text-align: left;
+  }
+
+  .nav-playlist-text {
+    align-self: center;
+    text-align: left;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &:hover,
+  &:focus {
+    color: #fff;
+  }
+}
+
+.nav-lib-entry {
+  margin: 0.35rem 0;
+}
+
+.nav-playlist-entry {
+  margin: 0.5rem 0;
+}

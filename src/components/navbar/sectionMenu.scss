@@ -21,7 +21,13 @@
     font-weight: bold;
   }
 
-  &:hover {
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &:hover,
+  &:focus {
     color: #fff;
   }
 }
